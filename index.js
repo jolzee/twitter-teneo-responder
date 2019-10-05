@@ -76,8 +76,21 @@ function respondToStatusUpdate(tweet, teneoResponse) {
   let statusId = tweet.id_str;
   let twitterHandle = tweet.user.screen_name;
   let replyMessage = teneoResponse.output.text;
-  let mediaType = "giphy"; // get from teneo response // text / image / gif / video / giphy
+  let mediaType = "text"; // get from teneo response // text / image / gif / video / giphy
   let giphySearch = "bad weather";
+  let mediaUrl = null;
+
+  if (teneoResponse.output.parameters.extensions) {
+    let extensions = JSON.parse(teneoResponse.output.parameters.extensions);
+    if (extensions.name === "displayImage") {
+      mediaUrl = extensions.parameters.image_url;
+      if (_.endsWith(mediaUrl, ".gif")) {
+        mediaType = "gif";
+      } else if (_.endsWith(mediaUrl, ".jpg")) {
+        mediaType = "image";
+      }
+    }
+  }
 
   //   let mediaUrl = "http://www.finsmes.com/wp-content/uploads/2018/10/artificial-solutions.jpg";
   //   let mediaUrl = "http://www.quickmeme.com/img/a3/a37b5661e15650d56d28e28b0db9b812ed36e4025d47bba444cf7ead386cf413.jpg"; //sowwy
