@@ -1,0 +1,22 @@
+{
+  "name": "twitter-teneo-responder",
+  "version": "1.0.0",
+  "description": "Artificial Solutions Responder",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Peter Joles",
+  "license": "ISC",
+  "dependencies": {
+    "@artificialsolutions/tie-api-client": "^1.3.4",
+    "dotenv": "^8.1.0",
+    "giphy-api": "^2.0.1",
+    "lodash": "^4.17.15",
+    "node-base64-image": "^1.0.6",
+    "shortid": "^2.2.15",
+    "twit": "^2.2.11",
+    "twitter": "^1.7.1"
+  }
+}
