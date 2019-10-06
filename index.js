@@ -6,7 +6,7 @@ const shortid = require("shortid");
 const dotenv = require("dotenv");
 const _ = require("lodash");
 const base64 = require("node-base64-image");
-var giphy = require("giphy-api")(process.env.GIPHY_API_KEY);
+// var giphy = require("giphy-api")(process.env.GIPHY_API_KEY);
 const path = require("path");
 const os = require("os");
 const fs = require("fs");
@@ -89,13 +89,17 @@ function respondToStatusUpdate(tweet, teneoResponse) {
       } else if (_.endsWith(mediaUrl, ".jpg")) {
         mediaType = "image";
       }
+    } else if (extensions.name === "displayVideo") {
+      let videoUrl = extensions.parameters.video_url;
+      if (_.endsWith(videoUrl, ".mp4")) {
+        mediaUrl = videoUrl;
+        mediaType = "video";
+      }
+    } else if (extensions.name === "displayGiphy") {
+      mediaType = "giphy";
+      mediaUrl = extensions.parameters.giphy_url;
     }
   }
-
-  //   let mediaUrl = "http://www.finsmes.com/wp-content/uploads/2018/10/artificial-solutions.jpg";
-  //   let mediaUrl = "http://www.quickmeme.com/img/a3/a37b5661e15650d56d28e28b0db9b812ed36e4025d47bba444cf7ead386cf413.jpg"; //sowwy
-  //   let mediaUrl = "https://wi.presales.artificial-solutions.com/media/sw/images/gifs/bad-weather.gif";
-  //   let mediaUrl = "https://wi.presales.artificial-solutions.com/media/sw/videos/christmas.mp4";
 
   let mediaAlt = "Artificial Solutions";
 
@@ -156,25 +160,32 @@ function respondToStatusUpdate(tweet, teneoResponse) {
       });
     });
   } else if (mediaType === "giphy") {
-    giphy.search(
-      {
-        q: giphySearch,
-        rating: "pg",
-        limit: 1
-      },
-      function(err, res) {
-        // Res contains gif data!
-        if (!err) {
-          let giphyUrl = res.data[0].url;
-          let twitterJson = {
-            status: `${replyMessage} ${giphyUrl}`,
-            in_reply_to_status_id: statusId,
-            auto_populate_reply_metadata: true
-          };
-          postStatusUpdate(twitterJson, twitterHandle);
-        }
-      }
-    );
+    let twitterJson = {
+      status: `${replyMessage} ${mediaUrl}`,
+      in_reply_to_status_id: statusId,
+      auto_populate_reply_metadata: true
+    };
+    postStatusUpdate(twitterJson, twitterHandle);
+
+    // giphy.search(
+    //   {
+    //     q: giphySearch,
+    //     rating: "pg",
+    //     limit: 1
+    //   },
+    //   function(err, res) {
+    //     // Res contains gif data!
+    //     if (!err) {
+    //       let giphyUrl = res.data[0].url;
+    //       let twitterJson = {
+    //         status: `${replyMessage} ${giphyUrl}`,
+    //         in_reply_to_status_id: statusId,
+    //         auto_populate_reply_metadata: true
+    //       };
+    //       postStatusUpdate(twitterJson, twitterHandle);
+    //     }
+    //   }
+    // );
   } else {
     let twitterJson = {
       status: `${replyMessage}`,
