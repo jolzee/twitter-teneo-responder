@@ -16,7 +16,6 @@ const stopCache = new NodeCache({ stdTTL: 300, checkperiod: 30 }); // 5min cache
 var flatfile = require("flat-file-db");
 var db = flatfile.sync("/tmp/twitter-media.db");
 const chalk = require("chalk");
-
 dotenv.config();
 
 let sessions = new Map();
