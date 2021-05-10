@@ -16,7 +16,7 @@
     "esm": "^3.2.25",
     "flat-file-db": "^1.0.0",
     "giphy-api": "^2.0.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "node-base64-image": "^1.0.6",
     "node-cache": "^4.2.1",
     "request": "^2.88.0",
